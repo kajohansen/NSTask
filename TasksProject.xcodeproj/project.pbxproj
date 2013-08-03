@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		226F34A417ACFE5600D06A15 /* BuildScript.command in Resources */ = {isa = PBXBuildFile; fileRef = 226F34A317ACFE5600D06A15 /* BuildScript.command */; };
 		A1818B5516FE271100684672 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1818B5416FE271100684672 /* Cocoa.framework */; };
 		A1818B5F16FE271100684672 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1818B5D16FE271100684672 /* InfoPlist.strings */; };
 		A1818B6116FE271100684672 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1818B6016FE271100684672 /* main.m */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		226F34A317ACFE5600D06A15 /* BuildScript.command */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = BuildScript.command; sourceTree = "<group>"; };
 		A1818B5116FE271100684672 /* TasksProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TasksProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1818B5416FE271100684672 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		A1818B5716FE271100684672 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -93,6 +95,7 @@
 		A1818B5B16FE271100684672 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				226F34A317ACFE5600D06A15 /* BuildScript.command */,
 				A1818B5C16FE271100684672 /* TasksProject-Info.plist */,
 				A1818B5D16FE271100684672 /* InfoPlist.strings */,
 				A1818B6016FE271100684672 /* main.m */,
@@ -156,6 +159,7 @@
 				A1818B5F16FE271100684672 /* InfoPlist.strings in Resources */,
 				A1818B6516FE271100684672 /* Credits.rtf in Resources */,
 				A1818B6B16FE271100684672 /* MainMenu.xib in Resources */,
+				226F34A417ACFE5600D06A15 /* BuildScript.command in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +307,7 @@
 				A1818B7016FE271100684672 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
