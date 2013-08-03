@@ -16,6 +16,7 @@
  * Speaking
  */
 @property (weak) IBOutlet NSTextField *phraseField;
+
 - (IBAction)speak:(id)sender;
 
 /** 
@@ -26,7 +27,9 @@
 @property (weak) IBOutlet NSPathControl *projectPath;
 @property (weak) IBOutlet NSPathControl *repoPath;
 @property (weak) IBOutlet NSButton *buildButton;
+@property (weak) IBOutlet NSButton *stopButton;
 @property (weak) IBOutlet NSTextField *targetName;
+
 - (IBAction)startTask:(id)sender;
 - (IBAction)stopTask:(id)sender;
 
