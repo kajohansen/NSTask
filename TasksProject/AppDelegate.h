@@ -8,19 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSPathControlDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 
-/** 
- * Project Package
- */
+
 @property (unsafe_unretained) IBOutlet NSTextView *outputText;
 @property (weak) IBOutlet NSProgressIndicator *spinner;
 @property (weak) IBOutlet NSPathControl *fsPath;
-@property (weak) IBOutlet NSButton *buildButton;
-@property (weak) IBOutlet NSButton *stopButton;
+@property (nonatomic, strong)NSMutableArray *menuItems;
+@property (nonatomic, strong)NSMutableArray *urlComponents;
+@property (nonatomic)NSUInteger initialPathComponents;
 
+- (IBAction)doList:(id)sender;
 - (IBAction)startTask:(id)sender;
 - (IBAction)stopTask:(id)sender;
 

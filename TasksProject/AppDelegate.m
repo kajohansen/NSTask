@@ -14,6 +14,10 @@
 
 }
 
+- (IBAction)doList:(id)sender {
+    [self startTask:self];
+}
+
 - (IBAction)startTask:(id)sender
 {
     self.outputText.string = @"";   //1
@@ -25,12 +29,8 @@
     NSMutableArray *arguments = [[NSMutableArray alloc] init];
     [arguments addObject:@"-h"];
     [arguments addObject:directory];
-//    [arguments addObject:buildLocation];
-//    [arguments addObject:projectName];
     
     // change UI and run task
-    [self.buildButton setEnabled:NO];
-//    [self.stopButton setEnabled:YES];
     [self.spinner startAnimation:self];
     [self runScript:arguments];
 }
@@ -90,11 +90,59 @@
             NSLog(@"Problem Running Task: %@", [exception description]);
         }
         @finally {
-            [self.buildButton setEnabled:YES];
             [self.spinner stopAnimation:self];
             self.isRunning = NO;
         }
     });
+}
+
+#pragma mark - NSPathcontrol delegate methods
+
+- (void)pathControl:(NSPathControl *)pathControl willPopUpMenu:(NSMenu *)menu
+{
+    
+    _menuItems = [NSMutableArray arrayWithArray:[menu itemArray]];
+    NSMutableIndexSet *indexesToRemove = [NSMutableIndexSet indexSetWithIndex:0];
+    [indexesToRemove addIndex:1];
+    [indexesToRemove addIndex:2];
+    [indexesToRemove addIndex:_menuItems.count -1];
+    [_menuItems removeObjectsAtIndexes:indexesToRemove];
+    
+    self.urlComponents = [NSMutableArray arrayWithArray:[[self.fsPath.URL path] componentsSeparatedByString:@"/"]];
+    [self.urlComponents removeObjectAtIndex:0];
+    self.initialPathComponents = self.urlComponents.count;
+//    NSLog(@"Initial Path %@ componens: %lu", [self.fsPath.URL path], (unsigned long)self.urlComponents.count);
+    
+    for (int i = 0; i < _menuItems.count; i++) {
+        [[_menuItems objectAtIndex:i] setTag:i];
+        [[_menuItems objectAtIndex:i] setTarget:self];
+        [[_menuItems objectAtIndex:i] setAction:@selector(setPath:)];
+    }
+}
+
+- (void)setPath:(NSMenuItem *)item
+{
+    NSURL *newPath = [NSURL URLWithString:@"file://localhost"];
+    
+    for (int i = 0; i < _menuItems.count; i++) {
+        if ([[[_menuItems objectAtIndex:i] title] isEqualToString:item.title]) {
+            NSUInteger pathComponentSteps = 1 + [[_menuItems objectAtIndex:i] tag];
+            for (int k = 0; k < pathComponentSteps; k++) {
+                [self.urlComponents removeObjectAtIndex:self.urlComponents.count -1];
+            }
+            for (int j = 0; j < self.urlComponents.count; j++) {
+                newPath = [newPath URLByAppendingPathComponent:[self.urlComponents objectAtIndex:j]];
+            }
+            if ([[newPath absoluteString] isEqualToString:@"file://localhost"]) {
+                newPath = [newPath URLByAppendingPathComponent:@"Volumes"];
+                newPath = [newPath URLByAppendingPathComponent:item.title];
+            }
+            NSLog(@"%@", [newPath absoluteString]);
+        }
+    }
+    
+    self.fsPath.URL = newPath;
+    [self startTask:self];
 }
 
 @end
