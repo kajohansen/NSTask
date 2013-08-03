@@ -13,22 +13,13 @@
 @property (assign) IBOutlet NSWindow *window;
 
 /** 
- * Speaking
- */
-@property (weak) IBOutlet NSTextField *phraseField;
-
-- (IBAction)speak:(id)sender;
-
-/** 
  * Project Package
  */
 @property (unsafe_unretained) IBOutlet NSTextView *outputText;
 @property (weak) IBOutlet NSProgressIndicator *spinner;
-@property (weak) IBOutlet NSPathControl *projectPath;
-@property (weak) IBOutlet NSPathControl *repoPath;
+@property (weak) IBOutlet NSPathControl *fsPath;
 @property (weak) IBOutlet NSButton *buildButton;
 @property (weak) IBOutlet NSButton *stopButton;
-@property (weak) IBOutlet NSTextField *targetName;
 
 - (IBAction)startTask:(id)sender;
 - (IBAction)stopTask:(id)sender;

@@ -14,46 +14,23 @@
 
 }
 
-- (IBAction)speak:(id)sender
-{
-    NSTask *task = [[NSTask alloc] init]; //1
-    
-    task.launchPath = @"/usr/bin/say";    //2
-    
-    NSString* speakingPhrase = self.phraseField.stringValue;    //3
-//    task.arguments  = @[speakingPhrase];
-    task.arguments  = @[@"-v", @"vicki", speakingPhrase];
-    
-    [task launch];    //4
-    [task waitUntilExit];    //5
-}
-
 - (IBAction)startTask:(id)sender
 {
     self.outputText.string = @"";   //1
     
     // get project location vars
-    NSString *projectLocation  = [self.projectPath.URL path];
-    NSString *finalLocation    = [self.repoPath.URL path];
-    
-    // get project name vars
-    NSString *projectName      = [self.projectPath.URL lastPathComponent];
-    NSString *xcodeProjectFile = [projectLocation stringByAppendingString:[NSString stringWithFormat:@"/%@.xcodeproj", projectName]];
-    
-    // set directory for build
-    NSString *buildLocation    = [projectLocation stringByAppendingString:@"/build/Release-iphoneos"];
-    
+    NSString *directory  = [self.fsPath.URL path];
+            
     // setup the arguments for the task
     NSMutableArray *arguments = [[NSMutableArray alloc] init];
-    [arguments addObject:xcodeProjectFile];
-    [arguments addObject:self.targetName.stringValue];
-    [arguments addObject:buildLocation];
-    [arguments addObject:projectName];
-    [arguments addObject:finalLocation];
+    [arguments addObject:@"-h"];
+    [arguments addObject:directory];
+//    [arguments addObject:buildLocation];
+//    [arguments addObject:projectName];
     
     // change UI and run task
     [self.buildButton setEnabled:NO];
-    [self.stopButton setEnabled:YES];
+//    [self.stopButton setEnabled:YES];
     [self.spinner startAnimation:self];
     [self runScript:arguments];
 }
@@ -63,7 +40,7 @@
     if ([self.buildTask isRunning]) {
         [self.buildTask terminate];
     }
-    [self.stopButton setEnabled:NO];
+//    [self.stopButton setEnabled:NO];
 }
 
 - (void)runScript:(NSArray*)arguments
@@ -71,11 +48,10 @@
     dispatch_queue_t taskQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     dispatch_async(taskQueue, ^{
         
-//        _isRunning = YES;
+        self.isRunning = YES;
         
         @try {
-            NSString *path  = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] pathForResource:@"BuildScript" ofType:@"command"]];
-            NSLog(@"Main bundle path : %@", path);
+            NSString *path  = [NSString stringWithFormat:@"/bin/ls"];
             
             self.buildTask            = [[NSTask alloc] init];
             self.buildTask.launchPath = path;
@@ -116,8 +92,7 @@
         @finally {
             [self.buildButton setEnabled:YES];
             [self.spinner stopAnimation:self];
-            _isRunning = NO;
-//            NSLog(@"is running : %c", _isRunning);
+            self.isRunning = NO;
         }
     });
 }
